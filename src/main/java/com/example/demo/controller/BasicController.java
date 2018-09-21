@@ -3,12 +3,11 @@ package com.example.demo.controller;
 import com.example.demo.dataStructures.Point;
 import com.example.demo.dataStructures.SquareAndLineReply;
 import com.example.demo.service.InterceptionService;
+import com.sun.deploy.net.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -30,14 +29,14 @@ public class BasicController {
         Input parameters - line ends coordinates and square's opposite corners coordinates
      */
     @RequestMapping(value = "/lineAndSquare", method = RequestMethod.GET)
-    public SquareAndLineReply squareAndLineIntersection (@RequestParam double lineX1,
-                                                         @RequestParam double lineY1,
-                                                         @RequestParam double lineX2,
-                                                         @RequestParam double lineY2,
-                                                         @RequestParam double squareX1,
-                                                         @RequestParam double squareY1,
-                                                         @RequestParam double squareX2,
-                                                         @RequestParam double squareY2){
+    public @ResponseBody SquareAndLineReply squareAndLineIntersection (@RequestParam double lineX1,
+                                                                       @RequestParam double lineY1,
+                                                                       @RequestParam double lineX2,
+                                                                       @RequestParam double lineY2,
+                                                                       @RequestParam double squareX1,
+                                                                       @RequestParam double squareY1,
+                                                                       @RequestParam double squareX2,
+                                                                       @RequestParam double squareY2) throws InvalidInput {
         //line points
         Point linePointA = new Point(lineX1, lineY1);
         Point linePointB = new Point(lineX2, lineY2);
@@ -48,6 +47,16 @@ public class BasicController {
 
         SquareAndLineReply reply = interceptionService.findInterception(linePointA, linePointB, squarePointA, squarePointB);
 
+        if(reply == null){
+            throw new InvalidInput();
+        }
         return reply;
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Invalid input. Can't make a square from input")
+    public class InvalidInput extends Exception {
+
+        public InvalidInput() {
+        }
     }
 }

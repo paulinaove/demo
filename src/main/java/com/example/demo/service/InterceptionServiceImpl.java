@@ -93,6 +93,10 @@ public class InterceptionServiceImpl implements InterceptionService {
         // the square of (p1, p2)
         // 2) Square of length of (p2, p3) is same as twice the square of (p1, p2)
 
+        if(d2 == 0 || d3 == 0 || d4 ==0){
+            return false;
+        }
+
         if (d2 == d3 && 2 * d2 == d4 && 2 * d2 == distSq(p2, p3)) {
             double d = distSq(p2, p4);
             return (d == distSq(p3, p4) && d == d2);
