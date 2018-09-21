@@ -18,5 +18,16 @@ It's a Spring Boot program so in order to start it, just run Runner class in you
  intersectionPoint - array of point, where lines intersect.
  
  2. http://localhost:8080/actuator/metrics/tomcat.sessions.active.current
- It is not authorized, because I didn't have enough time to fix (the attemts are in the code)
+ It is not authorized, because I didn't have enough time to fix (the attemts are in the code). In BasicSecurityConfig 14 line is commented, which doesn't allow to access this end point without authorisation, but I was not able to reach login page. 
+ 
+ <h3> Architecture: <h3>
+ 
+ The code is divided into controllers, services and dataStructures. 
+ Controllers handle REST requests and have no buissness logic.
+ Services have interfaces and service implementation. This is were all the logic is and it is accessable from controllers by interfaces.
+ DataStructures are all the classes and data structures that are used in the project (for example square, line, etc.)
+ 
+ <h3> Components/libraries </h3>
+ Lombok - used for getters and setter to have more clean code, without getters and setter overcrowing the screen .
+ Spring boot - used for application itself. Very easy configuration and allows a lot of features as REST, Spring Security and etc.
   
